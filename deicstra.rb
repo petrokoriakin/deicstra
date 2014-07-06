@@ -1,76 +1,54 @@
 class SingleConfiguration
 
   def initialize(raw_configuration)
-    @adjacency_matrix = [
-      # 1   2   3   4   
-      [-1,  1,  3, -1 ], # 1
-      [ 1, -1,  1,  4 ], # 2
-      [ 3,  1, -1,  1 ], # 3
-      [-1,  4,  1, -1 ]  # 4
-    ]
-    @city_names = ['gdansk', 'bydgoszcz', 'torun', 'warszawa']
-    @tasks_number = 2
-    @tasks = [['gdansk', 'warszawa'], ['bydgoszcz', 'warszawa']]
     parse_configuration(raw_configuration)
   end
 
-  # procedure TTestContainer.load(inputSource:TStrings);
-  # var
-  #  s:string;
-  #  i: Integer;
-  #  test,city: Integer;
-  #  p:integer;
-  #  pair:TIntPair;
-  # begin
-  #  try
-  #   input.Assign(inputSource);
-  #   curLine:=0;
-  #   testsNumber:=readInt();
-  #   for test:=1 to testsNumber do
-  #    begin
-  #     tests[test]:=TTest.Create(readInt()); //reading cities number and creating new test(test)
-  #     for city:=1 to tests[test].N do
-  #      begin
-  #       tests[test].cities[city]:=readStr(); //reading city name
-  #       p:=readInt(); // the number of neighbours of city
-  #       for i:=1 to p do
-  #        begin
-  #         // reading transportation cost
-  #         pair:=readIntPair();
-  #         tests[test].d[pair.first][pair.second]:=readInt();
-  #         tests[test].d[pair.second][pair.first]:=tests[test].d[pair.first][pair.second];
-  #        end;
-  #      end;
-
-  #      tests[test].r:=readInt();
-  #      setLength(tests[test].distancesToFind,testsNumber+1);
-  #      for i:=1 to testsNumber do
-  #       tests[test].distancesToFind[i]:=readCitiesPair(TStringArray(tests[test].cities));
-                
-  #      readStr(); //skip empty line dividing the tests
-  #    end;
-
-  #  except
-  #    on E : Exception do
-  #    begin
-  #      ShowMessage('Error: '+E.Message);
-  #    end;
-  #  end;
-  # end;
   def parse_configuration(raw_configuration)
-    puts "Current configuration: "
-    puts raw_configuration
+    @configuration = raw_configuration.split "\n"
+    @adjacency_matrix, @city_names, @tasks = [], [], []
+    @cities_number = @configuration.shift.to_i
+    @cities_number.times do |current_city|
+      @city_names << @configuration.shift
+      connections_number = @configuration.shift.to_i
+      parse_single_point current_city, connections_number, @configuration.shift(connections_number)
+    end
+    @tasks_number = @configuration.shift.to_i
+    @tasks_number.times do |t|
+      @tasks[t] = @configuration.shift.split ' '
+    end
+
+    puts "We have #{@cities_number} cities. They are:"
+    p @city_names
+    puts "We have #{@tasks_number} tasks here:"
+    pretty_print @tasks
+    puts "The @adjacency_matrix is:"
+    pretty_print @adjacency_matrix
     puts '='*80
 
   end
 
-  def city_number(city_name)
+  def parse_single_point current_city, connections_number, points
+    @adjacency_matrix[current_city] = Array.new(@cities_number, -1)
+    points.each do |current_point|
+      distination_city, distance = current_point.split(' ').map{|v| v.to_i}
+      @adjacency_matrix[current_city][distination_city-1] = distance
+    end
+  end
+
+  def city_by_number(city_name)
     @city_names.index(city_name)
   end
 
   def process
     @tasks.map do |task|
-      count_deikstra city_number(task[0]), city_number(task[1])
+      count_deikstra city_by_number(task[0]), city_by_number(task[1])
+    end
+  end
+
+  def pretty_print arr
+    arr.each do |a|
+      p a
     end
   end
 
@@ -138,11 +116,7 @@ class Container
     @raw_configurations = @user_input.join("\n").split("\n\n")
     
     puts "We are going to read #{@tests_number} ranges."
-    @configurations = []
-    @tests_number.times do |current_city_number|
-      @configurations << SingleConfiguration.new(@raw_configurations[current_city_number])
-    end
-
+    @configurations = @raw_configurations.map{|c| SingleConfiguration.new c }
   end
 
   def count_distances
