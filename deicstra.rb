@@ -1,8 +1,14 @@
 class SingleConfiguration
 
   def initialize(raw_configuration)
-    @adjacency_matrix = [ [], [] ]
-    @city_names = []
+    @adjacency_matrix = [
+      # 1   2   3   4   
+      [-1,  1,  3, -1 ], # 1
+      [ 1, -1,  1,  4 ], # 2
+      [ 3,  1, -1,  1 ], # 3
+      [-1,  4,  1, -1 ]  # 4
+    ]
+    @city_names = ['gdansk', 'bydgoszcz', 'torun', 'warszawa']
     parse_configuration(raw_configuration)
   end
 
@@ -106,13 +112,7 @@ class SingleConfiguration
   # end;
   def count_deikstra
     @watched_cities = []
-    @distances = [
-      # 1   2   3   4   
-      [-1,  1,  3, -1 ], # 1
-      [ 1, -1,  1,  4 ], # 2
-      [ 3,  1, -1,  1 ], # 3
-      [-1,  4,  1, -1 ]  # 4
-    ]
+    @distances = []
   end
 
 end
