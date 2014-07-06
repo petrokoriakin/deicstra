@@ -114,10 +114,16 @@ class SingleConfiguration
   #     ListBox1.Items.Append(IntToStr(q) + ' -> ' + IntToStr(i) + ': ' + IntToStr(d[i]));
 
   # end;
+
   def count_deikstra start_point, end_point
-    @watched_cities = []
-    @distances = []
-    start_point + end_point
+    
+    count_city = @city_names.length
+    watched_cities = []
+    distances = Array.new(count_city, 10000)
+   distances[start_point]= 0
+    for 1..count_city do |i|
+    end
+   distances[end_point]
   end
 
 end
