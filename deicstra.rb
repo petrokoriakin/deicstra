@@ -2,6 +2,7 @@ class SingleConfiguration
 
   def initialize(raw_configuration)
     parse_configuration(raw_configuration)
+    print_configuration
   end
 
   def parse_configuration(raw_configuration)
@@ -17,15 +18,6 @@ class SingleConfiguration
     @tasks_number.times do |t|
       @tasks[t] = @configuration.shift.split ' '
     end
-
-    puts "We have #{@cities_number} cities. They are:"
-    p @city_names
-    puts "We have #{@tasks_number} tasks here:"
-    pretty_print @tasks
-    puts "The @adjacency_matrix is:"
-    pretty_print @adjacency_matrix
-    puts '='*80
-
   end
 
   def parse_single_point current_city, connections_number, points
@@ -50,6 +42,17 @@ class SingleConfiguration
     arr.each do |a|
       p a
     end
+  end
+
+  def print_configuration
+    puts "We have #{@cities_number} cities. They are:"
+    p @city_names
+    puts "We have #{@tasks_number} tasks here:"
+    pretty_print @tasks
+    puts "The @adjacency_matrix is:"
+    pretty_print @adjacency_matrix
+    puts '='*80
+    puts
   end
 
   # procedure TForm1.Button1Click(Sender: TObject);
@@ -116,6 +119,7 @@ class Container
     @raw_configurations = @user_input.join("\n").split("\n\n")
     
     puts "We are going to read #{@tests_number} ranges."
+    puts
     @configurations = @raw_configurations.map{|c| SingleConfiguration.new c }
   end
 
