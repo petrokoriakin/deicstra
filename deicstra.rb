@@ -1,9 +1,5 @@
 class SingleConfiguration
 
-
-Petr Koriakin the best of the best
-
-
   def initialize(raw_configuration)
     @adjacency_matrix = [ [], [] ]
     @city_names = []
@@ -110,7 +106,13 @@ Petr Koriakin the best of the best
   # end;
   def count_deikstra
     @watched_cities = []
-    @distances = []
+    @distances = [
+      # 1   2   3   4   
+      [-1,  1,  3, -1 ], # 1
+      [ 1, -1,  1,  4 ], # 2
+      [ 3,  1, -1,  1 ], # 3
+      [-1,  4,  1, -1 ]  # 4
+    ]
   end
 
 end
