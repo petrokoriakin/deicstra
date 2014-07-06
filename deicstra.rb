@@ -9,6 +9,8 @@ class SingleConfiguration
       [-1,  4,  1, -1 ]  # 4
     ]
     @city_names = ['gdansk', 'bydgoszcz', 'torun', 'warszawa']
+    @tasks_number = 2
+    @tasks = [['gdansk', 'warszawa'], ['bydgoszcz', 'warszawa']]
     parse_configuration(raw_configuration)
   end
 
@@ -63,11 +65,13 @@ class SingleConfiguration
   end
 
   def city_number(city_name)
-    @city_names.index city_name
+    @city_names.index(city_name)
   end
 
   def process
-    [2 , 3]
+    @tasks.map do |task|
+      count_deikstra city_number(task[0]), city_number(task[1])
+    end
   end
 
   # procedure TForm1.Button1Click(Sender: TObject);
@@ -110,9 +114,10 @@ class SingleConfiguration
   #     ListBox1.Items.Append(IntToStr(q) + ' -> ' + IntToStr(i) + ': ' + IntToStr(d[i]));
 
   # end;
-  def count_deikstra
+  def count_deikstra start_point, end_point
     @watched_cities = []
     @distances = []
+    start_point + end_point
   end
 
 end
