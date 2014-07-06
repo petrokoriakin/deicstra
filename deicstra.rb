@@ -107,7 +107,7 @@ class SingleConfiguration
           puts "!!!"
           distances[j] = @adjacency_matrix[current_city][j] + distances[current_city] 
         end
-        puts distances
+        p " At #{i} and #{j} distances are: #{distances}"
 
       end
       watched_cities[current_city] = true
@@ -133,8 +133,8 @@ class Container
 
   def count_distances
     @configurations.map do |c|
-      puts c.process
-      puts ""
+      p c.process
+      puts
     end
   end
 
