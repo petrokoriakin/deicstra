@@ -121,7 +121,7 @@ class SingleConfiguration
     watched_cities = []
     distances = Array.new(count_city, 10000)
    distances[start_point]= 0
-    for 1..count_city do |i|
+    (1..count_city).each do |i|
     end
    distances[end_point]
   end
