@@ -97,6 +97,7 @@ class SingleConfiguration
   # end;
 
   def count_deikstra start_point, end_point
+<<<<<<< Updated upstream
     watched_cities = Array.new(@cities_number, false)
     distances = Array.new(@cities_number, 10000)
     distances[start_point]= 0
@@ -110,6 +111,24 @@ class SingleConfiguration
           distances[j] = @adjacency_matrix[current_city][j] + distances[current_city] 
         end
         puts distances
+=======
+      count_city = @city_names.length
+      watched_cities = Array.new(count_city, false)
+      distances = Array.new(count_city, 10000)
+      distances[start_point]= 0
+      0..count_city-1
+             current_city = distances.index (distances.min)
+             watched_cities[current_city] = true
+             (0..count_city-1).each do |j|
+              puts "#{@adjacency_matrix[current_city][j] + distances[current_city] < distances[j]}"
+              puts "#{watched_cities[j]}"
+              puts "#{@adjacency_matrix[current_city][j] != -1}"
+                   if (@adjacency_matrix[current_city][j] != -1) &&  (watched_cities[j] ==0) && (@adjacency_matrix[current_city][j] + distances[current_city] < distances[j])
+                          distances[j] = @adjacency_matrix[current_city][j] + distances[current_city] 
+                   end
+                   puts distances
+             end
+>>>>>>> Stashed changes
       end
       watched_cities[current_city] = true
     end
