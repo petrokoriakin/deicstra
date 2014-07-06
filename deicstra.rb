@@ -55,47 +55,6 @@ class SingleConfiguration
     puts
   end
 
-  # procedure TForm1.Button1Click(Sender: TObject);
-  # var
-  #   a:array[1..20,1..20] of longint;//матрица смежности (-1 нет ребра)
-  #   b:array[1..20]of boolean;//список просмотренных вершин
-  #   d:array[1..20] of longint;//расстояния
-  #   q, i, j, m, v: integer;
-  # begin
-  #  //Ввод данных
-  #   q := StrToIntDef(Edit1.Text, 1); //начальная вершина
-  #   if (q < 1) or (q > n) then q := 1;
-
-  #   for i := 1 to n do
-  #     for j := 1 to n do
-  #       a[j, i] := StrToIntDef(grid.Cells[i - 1, j - 1], -1);
-
-  #   //Расчет
-  #   fillchar(b,sizeof(b),0);
-  #   fillchar(d,sizeof(d), 10000); //бесконечность
-  #   d[q] := 0;//расстояние до начальной вершины
-  #   for i:=1 to n do
-  #   begin
-  #     m:=1000;
-  #     for j:=1 to n do
-  #     if ( (d[j] <= m) and (not b[j]) ) then
-  #     begin
-  #       m:=d[j];
-  #       v:=j;
-  #     end;
-  #     b[v] := true;
-  #     for j:=1 to n do
-  #      if ((a[v,j]<>-1)and(not b[j])and (d[v]+a[v,j]<d[j])) then
-  #        d[j]:=d[v]+a[v,j];
-  #   end;
-
-  #   //Вывод результата
-  #   ListBox1.Clear;
-  #   for i := 1 to n do
-  #     ListBox1.Items.Append(IntToStr(q) + ' -> ' + IntToStr(i) + ': ' + IntToStr(d[i]));
-
-  # end;
-
   def count_deikstra start_point, end_point
     watched_cities = Array.new(@cities_number, false)
     distances = Array.new(@cities_number, 10000)
@@ -112,6 +71,8 @@ class SingleConfiguration
       end
       watched_cities[current_city] = true
     end
+    p '*'*8
+    p "From '#{@city_names[start_point]}' to '#{@city_names[end_point]}' you can arrive in #{ distances[end_point]} miles"
     distances[end_point]
   end
 
@@ -141,7 +102,7 @@ class Container
 end
 
 sho_to_tut = <<-eos
-2
+1
 4
 gdansk
 2
