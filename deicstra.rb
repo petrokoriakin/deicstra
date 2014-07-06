@@ -1,7 +1,7 @@
 class SingleConfiguration
 
 
-
+Petr Koriakin the best of the best
 
 
   def initialize(raw_configuration)
