@@ -44,7 +44,7 @@ class SingleConfiguration
     end
   end
 
-  def print_configuration
+  def print_configuration #new method
     puts "We have #{@cities_number} cities. They are:"
     p @city_names
     puts "We have #{@tasks_number} tasks here:"
