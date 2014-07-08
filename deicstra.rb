@@ -1,10 +1,28 @@
-class SingleConfiguration
 
-  def initialize(raw_configuration)
+# This class represents single configuration
+# - cities
+# - distances
+# - minimal paths to find
+# and calculation algorithm
+class SingleConfiguration 
+
+  def initialize(raw_configuration) 
     parse_configuration(raw_configuration)
-    print_configuration
   end
 
+  # This method receives raw data with configuration and
+  # transforms it into calculateable arrays: 
+  # adjacency_matrix is two dimantionals array of distances between every two cities
+  # # 1 2 3 4
+  # [-1, 1, 3, -1 ], # 1
+  # [ 1, -1, 1, 4 ], # 2
+  # [ 3, 1, -1, 1 ], # 3
+  # [-1, 4, 1, -1 ] # 4
+  # ]
+  # city_names is array of city names 
+  # ['gdansk', 'bydgoszcz', 'torun', 'warszawa']
+  # tasks is two dimantional array of cities to find minimal path
+  # [["gdansk","warszawa"], ["bydgoszcz","warszawa"]]
   def parse_configuration(raw_configuration)
     @configuration = raw_configuration.split "\n"
     @adjacency_matrix, @city_names, @tasks = [], [], []
@@ -38,23 +56,6 @@ class SingleConfiguration
     end
   end
 
-  def pretty_print arr
-    arr.each do |a|
-      p a
-    end
-  end
-
-  def print_configuration #new method
-    puts "We have #{@cities_number} cities. They are:"
-    p @city_names
-    puts "We have #{@tasks_number} tasks here:"
-    pretty_print @tasks
-    puts "The @adjacency_matrix is:"
-    pretty_print @adjacency_matrix
-    puts '='*80
-    puts
-  end
-
   def count_deikstra start_point, end_point
     watched_cities = Array.new(@cities_number, false)
     distances = Array.new(@cities_number, 10000)
@@ -86,9 +87,7 @@ class Container
     @tests_number = @user_input.shift.to_i
 
     @raw_configurations = @user_input.join("\n").split("\n\n")
-    
-    puts "We are going to read #{@tests_number} ranges."
-    puts
+
     @configurations = @raw_configurations.map{|c| SingleConfiguration.new c }
   end
 
