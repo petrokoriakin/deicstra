@@ -60,21 +60,23 @@ class SingleConfiguration
     watched_cities = Array.new(@cities_number, false)
     distances = Array.new(@cities_number, 10000)
     distances[start_point]= 0
-    (0..@cities_number-1).each do |i| #убрать И 
-      current_city = distances.index (distances.min)
+    (0..@cities_number-1).each do
+      # looking for unwatched city with minimum distance
+      best_value = 10000;
+      (0..@cities_number-1).each do |j|
+        best_value = distances[j] if (!watched_cities[j] && distances[j]<best_value)
+      end
+      current_city = distances.index (best_value)
+  
       (0..@cities_number-1).each do |j|
         if (@adjacency_matrix[current_city][j] != -1) && !watched_cities[j] && (@adjacency_matrix[current_city][j] + distances[current_city] < distances[j])
-          puts "!!!"
           distances[j] = @adjacency_matrix[current_city][j] + distances[current_city] 
         end
-        p " At #{i} and #{j} distances are: #{distances}"
-
+       
       end
       watched_cities[current_city] = true
     end
-    p '*'*8
-    p "From '#{@city_names[start_point]}' to '#{@city_names[end_point]}' you can arrive in #{ distances[end_point]} miles"
-    distances[end_point]
+       distances[end_point]
   end
 
 end
@@ -100,38 +102,12 @@ class Container
 
 end
 
-sho_to_tut = <<-eos
-1
-4
-gdansk
-2
-2 1
-3 3
-bydgoszcz
-3
-1 1
-3 1
-4 4
-torun
-3
-1 3
-2 1
-4 1
-warszawa
-2
-2 4
-3 1
-2
-gdansk warszawa
-bydgoszcz warszawa
-eos
-
-c = Container.new(sho_to_tut)
-
-c.count_distances  #=> 
-                    # 
-                    # 2
-                    # 3
-                    # 
-                    # 2
-                    # 3
+puts "Enter input file name"
+filename = gets.chomp
+puts filename
+if File.exists?(filename)
+  c = Container.new(IO.read(filename))
+  c.count_distances 
+else
+  puts "File does not exist!"
+end
